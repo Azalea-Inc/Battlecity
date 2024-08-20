@@ -1,10 +1,13 @@
-import { Physics, GameObjects } from "phaser";
+import { Physics } from "phaser";
+import { PlayerMovementController } from "../controllers/PlayerMovementController";
 
 export class PlayerView extends Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "Tank");
+    this.controller = new PlayerMovementController(this);
+
     scene.add.existing(this);
-    scene.physics.add.existing(this).setScale(.25);
+    scene.physics.add.existing(this).setScale(0.25);
   }
 
   enablePhysics() {
@@ -12,7 +15,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
   }
 
-  update(){
-    this.x++;
+  update() {
+    this.controller.moveRight();
   }
 }
