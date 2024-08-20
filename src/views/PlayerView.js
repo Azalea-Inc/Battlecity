@@ -4,6 +4,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "Tank");
     scene.add.existing(this);
+    scene.physics.add.existing(this).setScale(.25);
   }
 
   enablePhysics() {

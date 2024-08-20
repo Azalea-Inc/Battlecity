@@ -13,7 +13,7 @@ export class InGameScene extends Scene {
   }
 
   create() {
-    this.player = this.physics.add.existing(new PlayerView(this, 400, 300));
+    this.player = new PlayerView(this, 400, 300);
     this.player.enablePhysics();
 
     const gameBoundX = this.game.config.width;
@@ -23,12 +23,6 @@ export class InGameScene extends Scene {
     const buttonReturn = this.add.text(50, 50, "InGame", {fill : '#0f0'});
     buttonReturn.setInteractive();
     buttonReturn.on("pointerdown", () => this.returnToTitleScreen());
-
-    // const positionX = this.game.config.width / 2;
-    // const positionY = this.game.config.height / 2;
-    // this.player = this.physics.add.sprite(positionX, positionY, "PlayerSprite").setScale(.25);
-    // this.cursors = this.input.keyboard.createCursorKeys();
-
   }
 
   update(){
