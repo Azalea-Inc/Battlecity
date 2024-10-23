@@ -39,9 +39,9 @@ export class InGameScene extends Scene {
       true
     );
 
-    const buttonReturn = this.add.text(50, 50, "InGame", { fill: "#0f0" });
-    buttonReturn.setInteractive();
-    buttonReturn.on("pointerdown", () => this.returnToTitleScreen());
+    // const buttonReturn = this.add.text(50, 50, "InGame", { fill: "#0f0" });
+    // buttonReturn.setInteractive();
+    // buttonReturn.on("pointerdown", () => this.returnToTitleScreen());
   }
 
   update() {

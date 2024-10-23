@@ -3,8 +3,6 @@ import { InGameScene } from "./scenes/InGameScene";
 import { InLobbyScene } from "./scenes/InLobbyScene";
 import { StartScene } from "./scenes/StartScene";
 
-
-
 const config = {
   type: Phaser.AUTO,
   width: 800,
