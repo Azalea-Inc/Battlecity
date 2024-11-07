@@ -1,20 +1,30 @@
-import { InCreateScene } from "./scenes/InCreateScene";
-import { InGameScene } from "./scenes/InGameScene";
-import { InLobbyScene } from "./scenes/InLobbyScene";
-import { StartScene } from "./scenes/StartScene";
+import { InGameView } from "./views/InGameView";
+import { InitView } from "./views/InitView";
+import { InLobyView } from "./views/InLobyView";
 
-const config = {
-  type: Phaser.AUTO,
-  width: 800,
-  height: 600,
-  scene: [InGameScene],
-  parent: 'app',
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: { y: 0 },
-    },
-  },
-};
+class View {
+  constructor() {
+    this.initView = new InitView(this);
+    this.inLobyView = new InLobyView(this);
+    this.inGameView = new InGameView(this);
+  }
 
-export default new Phaser.Game(config);
+  init() {
+    this.currentView = this.inGameView;
+    this.currentView.show();
+  }
+
+  createMatch() {
+    this.currentView.hide();
+    this.currentView = this.inLobyView;
+    this.currentView.show();
+  }
+
+  startMatch() {
+    this.currentView.hide();
+    this.currentView = this.inGameView;
+    this.inGameView.show();
+  }
+}
+
+new View().init();

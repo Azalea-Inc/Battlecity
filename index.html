@@ -1,13 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div
+      id="INIT"
+      class="hidden min-h-screen container max-w-xl mx-auto p-10 text-center"
+    >
+      <h1 class="text-3xl font-bold text-red-500 text-center">Battlecity</h1>
+
+      <div class="p-10 flex flex-col gap-2">
+        <input
+          class="outline-none border p-2"
+          type="text"
+          placeholder="Ingrese el código de partida"
+        />
+        <button
+          id="join-button"
+          class="border rounded-md p-2 hover:bg-gray-100"
+        >
+          Unirse a partida
+        </button>
+      </div>
+
+      <div class="p-10">
+        <button
+          id="create-button"
+          class="border rounded-md p-2 hover:bg-gray-100 w-full"
+        >
+          Crear partida
+        </button>
+      </div>
+    </div>
+
+    <div
+      id="IN_LOBY"
+      class="hidden min-h-screen container max-w-xl mx-auto p-10 text-center"
+    >
+      <h1 class="text-3xl font-bold text-red-500 text-center">Battlecity</h1>
+
+      <div class="p-10 flex flex-col gap-2">
+        <select class="p-2" name="" id="">
+          <option value="">Seleccione un color</option>
+          <option value="red">Rojo</option>
+          <option value="red">Azul</option>
+          <option value="red">Verde</option>
+          <option value="red">Amarillo</option>
+        </select>
+        <input
+          class="outline-none border p-2"
+          type="text"
+          placeholder="Ingrese un Nickname"
+        />
+        <button
+          id="startMatchButton"
+          class="border shadow bg-blue-500 hover:bg-blue-600 text-white rounded-md p-2 mt-4"
+        >
+          Unirse a partida
+        </button>
+      </div>
+    </div>
+
+    <div id="IN_GAME" class="flex flex-col items-center">
+      <div class="p-2 flex w-full bg-white">
+        <button class="bg-white hover:bg-gray-100 border shadow p-2 rounded-md">
+          Salir
+        </button>
+      </div>
+      <div id="app" class="flex-1"></div>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
