@@ -1,13 +1,12 @@
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import { Scene } from "phaser";
 import { PlayerView } from "../views/PlayerView";
-import { InputKeyboard } from "../interfaces/InputKeyboard";
 
 export class InGameScene extends Scene {
   constructor() {
     super("IN_GAME");
 
-    this.socket = io("ws://localhost:3000");
+    // this.socket = io("ws://localhost:3000");
     this.playersCount = 1;
     this.players = [];
   }
@@ -15,20 +14,26 @@ export class InGameScene extends Scene {
   init() {
     this.localPlayer = new PlayerView(this, 100, 100);
     this.localPlayer.enablePhysics();
-
-    this.socket.emit("init", "Jugador local conectado");
-    this.socket.on("welcome", (data) => {
-      console.log("bienvenido jugador con ID: ", data.id);
-    });
   }
 
   preload() {
-    this.load.image("Tank", "/Player_Image.png");
+    this.load.image("Tank", "/tank.png");
+    this.load.image("bullet", "/bullet.png");
   }
 
   create() {
-    this.keyboard = new InputKeyboard(this);
+    this.keyboard = this.input.keyboard.addKeys({
+      shoot: Phaser.Input.Keyboard.KeyCodes.S,
+      rotateLeft: Phaser.Input.Keyboard.KeyCodes.A,
+      rotateRight: Phaser.Input.Keyboard.KeyCodes.D,
+      left: Phaser.Input.Keyboard.KeyCodes.LEFT,
+      right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
+      up: Phaser.Input.Keyboard.KeyCodes.UP,
+      down: Phaser.Input.Keyboard.KeyCodes.DOWN
+    });
+
     this.init();
+
     const gameBoundX = this.game.config.width;
     const gameBoundY = this.game.config.height;
     this.physics.world.setBounds(
@@ -43,5 +48,7 @@ export class InGameScene extends Scene {
     );
   }
 
-  update() {}
+  update() {
+    this.localPlayer.update(this.keyboard);
+  }
 }
