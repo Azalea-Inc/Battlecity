@@ -1,4 +1,4 @@
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 import { Scene } from "phaser";
 import { PlayerView } from "../views/PlayerView";
 
@@ -6,19 +6,33 @@ export class InGameScene extends Scene {
   constructor() {
     super("IN_GAME");
 
-    // this.socket = io("ws://localhost:3000");
     this.playersCount = 1;
     this.players = [];
   }
 
   init() {
+    this.socket = io("ws://localhost:3000");
+
     this.localPlayer = new PlayerView(this, 100, 100);
     this.localPlayer.enablePhysics();
+    this.localPlayer.setSocket(this.socket);
+    this.localPlayer.initHandlers();
 
-    const enemy = new PlayerView(this, 400, 100);
-    enemy.enablePhysics();
+    this.socket.on("player-added", ({ id }) => {
+      console.log("Player Added " + id);
+      if (id == this.localPlayer.id) return;
+      const find = this.players.find((e) => e.id == id);
+      if (find) return;
 
-    this.localPlayer.overlap(enemy);
+      const player = new PlayerView(this, 100, 100);
+      player.setId(id);
+      player.enablePhysics();
+      player.setSocket(this.socket);
+      player.initActionHandlers();
+      this.players.push(player);
+      this.localPlayer.overlap(player);
+      player.overlap(this.localPlayer);
+    });
   }
 
   preload() {
@@ -55,5 +69,9 @@ export class InGameScene extends Scene {
 
   update() {
     this.localPlayer.update(this.keyboard);
+
+    this.players.forEach((player) => {
+      player.resetState();
+    });
   }
 }

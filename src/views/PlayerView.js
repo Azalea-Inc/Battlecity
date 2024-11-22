@@ -19,6 +19,58 @@ export class PlayerView extends Physics.Arcade.Sprite {
     this.movmentController = new PlayerMovmentController(this);
   }
 
+  setSocket(socket) {
+    this.socket = socket;
+  }
+
+  setId(id) {
+    this.id = id;
+  }
+
+  initActionHandlers() {
+    this.socket.on("move-right", ({ id }) => {
+      console.log(id);
+      if (id != this.id) return;
+      this.moveRight();
+    });
+
+    this.socket.on("move-left", ({ id }) => {
+      if (id != this.id) return;
+      this.moveLeft();
+    });
+
+    this.socket.on("move-down", ({ id }) => {
+      if (id != this.id) return;
+      this.moveDown();
+    });
+
+    this.socket.on("move-up", ({ id }) => {
+      if (id != this.id) return;
+      this.moveUp();
+    });
+
+    this.socket.on("shoot", ({ id }) => {
+      if (id != this.id) return;
+      this.shootBullet();
+    });
+
+    this.socket.on("rotate-left", ({ id }) => {
+      if (id != this.id) return;
+      this.rotateLeft();
+    });
+
+    this.socket.on("rotate-right", ({ id }) => {
+      if (id != this.id) return;
+      this.rotateRight();
+    });
+  }
+
+  initHandlers() {
+    this.id = crypto.randomUUID();
+    this.socket.emit("start", { id: this.id });
+    this.movmentController.setSocket(this.socket);
+  }
+
   overlap(enemy) {
     this.scene.physics.add.overlap(
       this.bullets,

@@ -4,6 +4,7 @@ import express from "express";
 import { InLobyServer } from "./InLobyServer.js";
 import { InCreateServer } from "./InCreateServer.js";
 import { LogicServer } from "./controllers/LogicServer.js";
+import { InGameServer } from "./InGameServer.js";
 
 const app = express();
 const httpServer = createServer(app);
@@ -23,20 +24,15 @@ class SocketServer {
       this.logic.getInCreateController()
     );
     this.inLobyServer = new InLobyServer(app);
+    this.inGameServer = new InGameServer(this.io);
+
     this.init();
   }
 
   init() {
     this.inCreateServer.start();
     this.inLobyServer.start();
-
-    this.io.on("connection", (socket) => {
-      console.log("a user connected with id " + socket.id);
-
-      socket.on("disconnect", () => {
-        console.log("a user disconnected with id " + socket.id);
-      });
-    });
+    this.inGameServer.start();
   }
 
   start() {
