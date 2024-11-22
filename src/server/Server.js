@@ -23,8 +23,13 @@ class SocketServer {
       app,
       this.logic.getInCreateController()
     );
+
     this.inLobyServer = new InLobyServer(app);
-    this.inGameServer = new InGameServer(this.io);
+
+    this.inGameServer = new InGameServer(
+      this.io,
+      this.logic.getInGameController()
+    );
 
     this.init();
   }

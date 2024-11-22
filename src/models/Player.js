@@ -1,17 +1,45 @@
 export class Player {
-    constructor() {
-        this.health = 100;
-    }
+  constructor(x, y) {
+    this.health = 100;
+    this.angle = 0;
+    this.x = x;
+    this.y = y;
+    this.speed = 150;
+  }
 
-    damage() {
-        this.health -= 25;
-    }
+  setId(id) {
+    this.id = id;
+  }
 
-    heal() {
-        this.health += 25;
-    }
+  damage() {
+    this.health -= 25;
+  }
 
-    getHealth() {
-        return this.health;
-    }
+  heal() {
+    this.health += 25;
+  }
+
+  getHealth() {
+    return this.health;
+  }
+
+  moveLeft() {
+    this.x -= this.speed;
+  }
+
+  moveRight() {
+    this.x += this.speed;
+  }
+
+  moveLeft() {
+    this.x -= this.speed;
+  }
+
+  moveDown() {
+    this.y += this.speed;
+  }
+
+  moveUp() {
+    this.y -= this.speed;
+  }
 }

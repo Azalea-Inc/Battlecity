@@ -29,11 +29,13 @@ export class PlayerMovmentController {
     if (events.left.isDown) {
       this.socket.emit("move-left", { id: this.playerView.id });
       this.playerView.moveLeft();
+      console.log(this.playerView.body);
     }
 
     if (events.right.isDown) {
       this.socket.emit("move-right", { id: this.playerView.id });
       this.playerView.moveRight();
+      console.log(this.playerView.body);
     }
 
     if (events.up.isDown) {

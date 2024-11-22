@@ -1,5 +1,6 @@
 import { Physics } from "phaser";
 import { PlayerMovmentController } from "./PlayerMovmentController";
+import { PlayerSocketController } from "./PlayerSocketController";
 
 export class PlayerView extends Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -15,7 +16,21 @@ export class PlayerView extends Physics.Arcade.Sprite {
       defaultKey: "bullet",
       maxSize: 30
     });
+  }
 
+  join() {
+    this.socket.emit("join", { id: this.id });
+
+    this.socket.on("welcome", (player) => {
+      this.x = player.x;
+      this.y = player.y;
+      this.setId(player.id);
+      this.socket.emit("init", player);
+    });
+    this.movmentController.setSocket(this.socket);
+  }
+
+  createMovmentController() {
     this.movmentController = new PlayerMovmentController(this);
   }
 
@@ -28,47 +43,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
   }
 
   initActionHandlers() {
-    this.socket.on("move-right", ({ id }) => {
-      console.log(id);
-      if (id != this.id) return;
-      this.moveRight();
-    });
-
-    this.socket.on("move-left", ({ id }) => {
-      if (id != this.id) return;
-      this.moveLeft();
-    });
-
-    this.socket.on("move-down", ({ id }) => {
-      if (id != this.id) return;
-      this.moveDown();
-    });
-
-    this.socket.on("move-up", ({ id }) => {
-      if (id != this.id) return;
-      this.moveUp();
-    });
-
-    this.socket.on("shoot", ({ id }) => {
-      if (id != this.id) return;
-      this.shootBullet();
-    });
-
-    this.socket.on("rotate-left", ({ id }) => {
-      if (id != this.id) return;
-      this.rotateLeft();
-    });
-
-    this.socket.on("rotate-right", ({ id }) => {
-      if (id != this.id) return;
-      this.rotateRight();
-    });
-  }
-
-  initHandlers() {
-    this.id = crypto.randomUUID();
-    this.socket.emit("start", { id: this.id });
-    this.movmentController.setSocket(this.socket);
+    new PlayerSocketController(this, this.socket).start();
   }
 
   overlap(enemy) {

@@ -1,38 +1,54 @@
 import { io } from "socket.io-client";
 import { Scene } from "phaser";
-import { PlayerView } from "../views/PlayerView";
+import { PlayerView } from "../views/player/PlayerView";
+
+const socket = io("ws://localhost:3000");
 
 export class InGameScene extends Scene {
   constructor() {
     super("IN_GAME");
-
-    this.playersCount = 1;
     this.players = [];
   }
 
   init() {
-    this.socket = io("ws://localhost:3000");
-
+    this.socket = socket;
     this.localPlayer = new PlayerView(this, 100, 100);
+    this.localPlayer.createMovmentController();
     this.localPlayer.enablePhysics();
     this.localPlayer.setSocket(this.socket);
-    this.localPlayer.initHandlers();
+    this.localPlayer.join();
 
-    this.socket.on("player-added", ({ id }) => {
-      console.log("Player Added " + id);
-      if (id == this.localPlayer.id) return;
-      const find = this.players.find((e) => e.id == id);
-      if (find) return;
-
-      const player = new PlayerView(this, 100, 100);
-      player.setId(id);
-      player.enablePhysics();
-      player.setSocket(this.socket);
-      player.initActionHandlers();
-      this.players.push(player);
-      this.localPlayer.overlap(player);
-      player.overlap(this.localPlayer);
+    this.socket.on("inGamePlayers", (players) => {
+      players.map((player) => {
+        this.addPlayer(player);
+      });
     });
+
+    this.socket.on("player-disconnected", (id) => {
+      const exist = this.players.find((player) => player.id == id);
+      if (!exist) return;
+      this.players = this.players.filter((player) => player.id != id);
+      exist.destroy();
+    });
+
+    this.socket.on("player-added", (player) => {
+      this.addPlayer(player);
+    });
+  }
+
+  addPlayer(player) {
+    if (player.id == this.localPlayer.id) return;
+    const find = this.players.find((e) => e.id == player.id);
+    if (find) return;
+
+    const newPlayer = new PlayerView(this, player.x, player.y);
+    newPlayer.setId(player.id);
+    newPlayer.enablePhysics();
+    newPlayer.setSocket(this.socket);
+    newPlayer.initActionHandlers();
+    this.localPlayer.overlap(newPlayer);
+    newPlayer.overlap(this.localPlayer);
+    this.players.push(newPlayer);
   }
 
   preload() {
