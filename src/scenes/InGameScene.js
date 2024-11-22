@@ -14,6 +14,11 @@ export class InGameScene extends Scene {
   init() {
     this.localPlayer = new PlayerView(this, 100, 100);
     this.localPlayer.enablePhysics();
+
+    const enemy = new PlayerView(this, 400, 100);
+    enemy.enablePhysics();
+
+    this.localPlayer.overlap(enemy);
   }
 
   preload() {
@@ -23,13 +28,13 @@ export class InGameScene extends Scene {
 
   create() {
     this.keyboard = this.input.keyboard.addKeys({
-      shoot: Phaser.Input.Keyboard.KeyCodes.S,
+      shoot: Phaser.Input.Keyboard.KeyCodes.SPACE,
       rotateLeft: Phaser.Input.Keyboard.KeyCodes.A,
       rotateRight: Phaser.Input.Keyboard.KeyCodes.D,
       left: Phaser.Input.Keyboard.KeyCodes.LEFT,
       right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
-      up: Phaser.Input.Keyboard.KeyCodes.UP,
-      down: Phaser.Input.Keyboard.KeyCodes.DOWN
+      up: Phaser.Input.Keyboard.KeyCodes.W,
+      down: Phaser.Input.Keyboard.KeyCodes.S
     });
 
     this.init();

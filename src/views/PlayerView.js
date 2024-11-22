@@ -1,4 +1,5 @@
 import { Physics } from "phaser";
+import { PlayerMovmentController } from "./PlayerMovmentController";
 
 export class PlayerView extends Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -8,11 +9,24 @@ export class PlayerView extends Physics.Arcade.Sprite {
 
     this.speed = 150;
     this.angle = 0;
+    this.life = 100;
 
     this.bullets = scene.physics.add.group({
       defaultKey: "bullet",
-      maxSize: 10
+      maxSize: 30
     });
+
+    this.movmentController = new PlayerMovmentController(this);
+  }
+
+  overlap(enemy) {
+    this.scene.physics.add.overlap(
+      this.bullets,
+      enemy,
+      this.impact,
+      null,
+      this
+    );
   }
 
   enablePhysics() {
@@ -20,65 +34,72 @@ export class PlayerView extends Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
   }
 
-  shootBullet() {
-    const bulletSpeed = 400;
+  impact(enemy, bullet) {
+    enemy.damage();
+  }
 
+  damage() {
+    this.life -= 10;
+    console.log("Damage");
+  }
+
+  shootBullet() {
+    const bulletSpeed = 600;
     const bullet = this.bullets.get(this.x, this.y);
 
-    if (bullet) {
-      bullet.setActive(true);
-      bullet.setVisible(true);
+    if (!bullet) return;
 
-      bullet.body.reset(this.x, this.y);
+    bullet.setActive(true);
+    bullet.setVisible(true);
 
-      const angleInRadians = Phaser.Math.DegToRad(this.angle - 90);
-      bullet.setVelocity(
-        Math.cos(angleInRadians) * bulletSpeed,
-        Math.sin(angleInRadians) * bulletSpeed
-      );
+    bullet.body.reset(this.x, this.y);
 
-      bullet.setAngle(this.angle - 90);
-      bullet.setScale(0.15);
+    const angleInRadians = Phaser.Math.DegToRad(this.angle - 90);
+    bullet.setVelocity(
+      Math.cos(angleInRadians) * bulletSpeed,
+      Math.sin(angleInRadians) * bulletSpeed
+    );
 
-      this.scene.time.delayedCall(1000, () => {
-        this.bullets.killAndHide(bullet);
-      });
-    }
+    bullet.setAngle(this.angle - 90);
+    bullet.setScale(0.15);
+
+    this.scene.time.delayedCall(1000, () => {
+      this.bullets.killAndHide(bullet);
+    });
+  }
+
+  resetState() {
+    this.setVelocity(0, 0);
+    this.setAngle(this.angle);
+  }
+
+  rotateLeft() {
+    this.angle -= 5;
+    this.setAngle(this.angle);
+  }
+
+  rotateRight() {
+    this.angle += 5;
+    this.setAngle(this.angle);
+  }
+
+  moveLeft() {
+    this.setVelocityX(-this.speed);
+  }
+
+  moveRight() {
+    this.setVelocityX(this.speed);
+  }
+
+  moveUp() {
+    this.setVelocityY(-this.speed);
+  }
+
+  moveDown() {
+    this.setVelocityY(this.speed);
   }
 
   update(events) {
-    this.setVelocity(0, 0);
-    this.setAngle(this.angle);
-
-    if (events.rotateLeft.isDown) {
-      this.angle -= 5;
-      this.setAngle(this.angle);
-    }
-
-    if (events.rotateRight.isDown) {
-      this.angle += 5;
-
-      this.setAngle(this.angle);
-    }
-
-    if (events.left.isDown) {
-      this.setVelocityX(-this.speed);
-    }
-
-    if (events.right.isDown) {
-      this.setVelocityX(this.speed);
-    }
-
-    if (events.up.isDown) {
-      this.setVelocityY(-this.speed);
-    }
-
-    if (events.down.isDown) {
-      this.setVelocityY(this.speed);
-    }
-
-    if (Phaser.Input.Keyboard.JustDown(events.shoot)) {
-      this.shootBullet();
-    }
+    this.movmentController.update(events);
   }
 }
