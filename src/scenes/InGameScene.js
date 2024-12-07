@@ -1,5 +1,5 @@
-import { io } from "socket.io-client";
 import { Scene } from "phaser";
+import { io } from "socket.io-client";
 import { PlayerView } from "../views/player/PlayerView";
 
 const socket = io("ws://localhost:3000");
@@ -85,9 +85,5 @@ export class InGameScene extends Scene {
 
   update() {
     this.localPlayer.update(this.keyboard);
-
-    this.players.forEach((player) => {
-      player.resetState();
-    });
   }
 }

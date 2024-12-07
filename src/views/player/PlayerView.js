@@ -27,7 +27,11 @@ export class PlayerView extends Physics.Arcade.Sprite {
       this.setId(player.id);
       this.socket.emit("init", player);
     });
+
     this.movmentController.setSocket(this.socket);
+    this.socket.on("set-position", (player) => {
+      this.setPosition(player.x, player.y);
+    });
   }
 
   createMovmentController() {
@@ -111,7 +115,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
   }
 
   moveLeft() {
-    this.setVelocityX(-this.speed);
+    this.setPosition(this.x - this.speed, this.y);
   }
 
   moveRight() {
@@ -119,11 +123,11 @@ export class PlayerView extends Physics.Arcade.Sprite {
   }
 
   moveUp() {
-    this.setVelocityY(-this.speed);
+    this.setPosition(this.x, this.y - this.speed);
   }
 
   moveDown() {
-    this.setVelocityY(this.speed);
+    this.setPosition(this.x, this.y + this.speed);
   }
 
   update(events) {
