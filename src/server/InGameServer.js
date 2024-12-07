@@ -46,13 +46,13 @@ export class InGameServer {
       });
 
       socket.on("rotate-left", ({ id }) => {
-        this.controller.setPlayer(id);
+        this.controller.rotateLeft(id);
         socket.broadcast.emit("rotate-left", { id });
         socket.emit("set-position", this.controller.getPlayer(id));
       });
 
       socket.on("rotate-right", ({ id }) => {
-        this.controller.setPlayer(id);
+        this.controller.rotateRight(id);
         socket.broadcast.emit("rotate-right", { id });
         socket.emit("set-position", this.controller.getPlayer(id));
       });

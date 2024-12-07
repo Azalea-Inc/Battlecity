@@ -42,4 +42,12 @@ export class Player {
   moveUp() {
     this.y -= this.speed;
   }
+
+  rotateRight() {
+    this.angle += 5;
+  }
+
+  rotateLeft() {
+    this.angle -= 5;
+  }
 }

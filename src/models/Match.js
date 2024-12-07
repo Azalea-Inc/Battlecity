@@ -33,13 +33,35 @@ export class Match {
     const exist = this.players.find((player) => player.id == id);
     if (!exist) return;
     exist.moveLeft();
-    console.log(exist, this.players);
   }
 
   moveRight(id) {
     const exist = this.players.find((player) => player.id == id);
     if (!exist) return;
     exist.moveRight();
-    console.log(exist, this.players);
+  }
+
+  moveUp(id) {
+    const exist = this.players.find((player) => player.id == id);
+    if (!exist) return;
+    exist.moveUp();
+  }
+
+  moveDown(id) {
+    const exist = this.players.find((player) => player.id == id);
+    if (!exist) return;
+    exist.moveDown();
+  }
+
+  rotateLeft(id) {
+    const exist = this.players.find((player) => player.id == id);
+    if (!exist) return;
+    exist.rotateLeft();
+  }
+
+  rotateRight(id) {
+    const exist = this.players.find((player) => player.id == id);
+    if (!exist) return;
+    exist.rotateRight();
   }
 }

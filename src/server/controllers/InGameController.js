@@ -29,6 +29,22 @@ export class InGameController {
     this.match.moveRight(id);
   }
 
+  moveUp(id){
+    this.match.moveUp(id);
+  }
+  
+  moveDown(id){
+    this.match.moveDown(id);
+  }
+
+  rotateLeft(id) {
+    this.match.rotateLeft(id);
+  }
+
+  rotateRight(id) {
+    this.match.rotateRight(id);
+  }
+
   getPlayers() {
     return this.match.getPlayers();
   }
