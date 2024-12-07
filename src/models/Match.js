@@ -17,26 +17,16 @@ export class Match {
     this.players = players;
   }
 
-  setPlayer(player) {
-    console.log(player);
-    const find = this.players.find((e) => e.id == player.id);
-    if (find) return;
-
-    this.players = this.players.map((e) => {
-      if (e.id == player.id){
-        e = {...e, player};
-
-        return;
-      }
-    })
-  }
-
   getPlayersNumber() {
     return this.players.length;
   }
 
   getPlayers() {
     return this.players;
+  }
+
+  getPlayer(id){
+    return this.players.find((e) => e.id == id)
   }
 
   moveLeft(id) {

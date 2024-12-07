@@ -6,6 +6,10 @@ export class InGameController {
     this.match = new Match();
   }
 
+  getPlayer(id){
+    return this.match.getPlayer(id);
+  }
+
   getPlayersNumber() {
     return this.match.getPlayersNumber();
   }
@@ -31,9 +35,5 @@ export class InGameController {
 
   removePlayer(id) {
     this.match.removePlayer(id);
-  }
-
-  setPlayer(player) {
-    this.match.setPlayer(player);
   }
 }

@@ -21,34 +21,40 @@ export class InGameServer {
         );
       });
 
-      socket.on("move-left", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("move-left", ({ id }) => {
+        this.controller.moveLeft(id);
         socket.broadcast.emit("move-left", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
-      socket.on("move-right", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("move-right", ({ id }) => {
+        this.controller.moveRight(id);
         socket.broadcast.emit("move-right", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
-      socket.on("move-down", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("move-down", ({ id }) => {
+        this.controller.moveDown(id);
         socket.broadcast.emit("move-down", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
-      socket.on("move-up", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("move-up", ({ id }) => {
+        this.controller.moveUp(id);
         socket.broadcast.emit("move-up", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
-      socket.on("rotate-left", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("rotate-left", ({ id }) => {
+        this.controller.setPlayer(id);
         socket.broadcast.emit("rotate-left", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
-      socket.on("rotate-right", ({ player }) => {
-        this.controller.setPlayer(player);
+      socket.on("rotate-right", ({ id }) => {
+        this.controller.setPlayer(id);
         socket.broadcast.emit("rotate-right", { id });
+        socket.emit("set-position", this.controller.getPlayer(id));
       });
 
       socket.on("shoot", ({ id }) => {
