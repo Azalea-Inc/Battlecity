@@ -32,3 +32,8 @@ Sigue estos pasos para poner el proyecto en marcha:
    ```bash
    git clone https://github.com/Azalea-Inc/battlecity.git
    cd battlecity
+
+---
+
+## 📝 Licencia
+Este proyecto está licenciado bajo la [MIT License](./LICENSE).
