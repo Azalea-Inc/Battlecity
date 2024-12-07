@@ -42,6 +42,7 @@ export class InGameScene extends Scene {
     if (find) return;
 
     const newPlayer = new PlayerView(this, player.x, player.y);
+    newPlayer.angle = player.angle;
     newPlayer.setId(player.id);
     newPlayer.enablePhysics();
     newPlayer.setSocket(this.socket);
