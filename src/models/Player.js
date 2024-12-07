@@ -4,7 +4,7 @@ export class Player {
     this.angle = 0;
     this.x = x;
     this.y = y;
-    this.speed = 150;
+    this.speed = 1;
   }
 
   setId(id) {
