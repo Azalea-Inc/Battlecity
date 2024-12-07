@@ -32,4 +32,8 @@ export class InGameController {
   removePlayer(id) {
     this.match.removePlayer(id);
   }
+
+  setPlayer(player) {
+    this.match.setPlayer(player);
+  }
 }

@@ -17,35 +17,35 @@ export class PlayerMovmentController {
     this.playerView.resetState();
 
     if (events.rotateLeft.isDown) {
-      this.socket.emit("rotate-left", { id: this.playerView.id });
       this.playerView.rotateLeft();
+      this.socket.emit("rotate-left", { player: this.playerView});
     }
 
     if (events.rotateRight.isDown) {
-      this.socket.emit("rotate-right", { id: this.playerView.id });
       this.playerView.rotateRight();
+      this.socket.emit("rotate-right", { player: this.playerView});
     }
 
     if (events.left.isDown) {
-      this.socket.emit("move-left", { id: this.playerView.id });
       this.playerView.moveLeft();
+      this.socket.emit("move-left", { player: this.playerView});  
       console.log(this.playerView.body);
     }
 
     if (events.right.isDown) {
-      this.socket.emit("move-right", { id: this.playerView.id });
       this.playerView.moveRight();
+      this.socket.emit("move-right", { player: this.playerView});  
       console.log(this.playerView.body);
     }
 
     if (events.up.isDown) {
-      this.socket.emit("move-up", { id: this.playerView.id });
       this.playerView.moveUp();
+      this.socket.emit("move-up", { player: this.playerView });
     }
 
     if (events.down.isDown) {
-      this.socket.emit("move-down", { id: this.playerView.id });
       this.playerView.moveDown();
+      this.socket.emit("move-down", { player: this.playerView});
     }
 
     if (Phaser.Input.Keyboard.JustDown(events.shoot)) {

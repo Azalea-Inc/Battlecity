@@ -8,7 +8,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this).setScale(0.15);
 
-    this.speed = 150;
+    this.speed = 1;
     this.angle = 0;
     this.life = 100;
 
@@ -115,7 +115,7 @@ export class PlayerView extends Physics.Arcade.Sprite {
   }
 
   moveRight() {
-    this.setVelocityX(this.speed);
+    this.setPosition(this.x + this.speed, this.y);
   }
 
   moveUp() {
