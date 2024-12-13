@@ -15,7 +15,12 @@ export class InGameController {
   }
 
   addPlayer(id) {
-    const player = new Player(this.getPlayersNumber() * 100, 100);
+    const find = this.getPlayers().find((e) => e.id == id);
+
+    if(find) throw new Error("Usuario existente");
+
+    const player = new Player((this.getPlayersNumber() + 1) * 100, 100);
+    console.log(player)
     player.setId(id);
     this.match.addPlayer(player);
     return player;

@@ -26,11 +26,13 @@ export class PlayerView extends Physics.Arcade.Sprite {
       this.y = player.y;
       this.angle = player.angle;
       this.setId(player.id);
+      console.log(player);
       this.socket.emit("init", player);
     });
 
     this.movmentController.setSocket(this.socket);
     this.socket.on("set-position", (player) => {
+      console.log(player);
       this.setPosition(player.x, player.y);
     });
   }
