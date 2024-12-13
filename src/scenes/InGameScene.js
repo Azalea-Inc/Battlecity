@@ -1,8 +1,6 @@
 import { Scene } from "phaser";
-import { io } from "socket.io-client";
 import { PlayerView } from "../views/player/PlayerView";
-
-const socket = io("ws://localhost:3000");
+import { socket } from "../utils/Socket";
 
 export class InGameScene extends Scene {
   constructor() {

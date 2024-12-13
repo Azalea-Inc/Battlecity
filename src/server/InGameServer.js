@@ -2,6 +2,7 @@ export class InGameServer {
   constructor(io, controller) {
     this.io = io;
     this.controller = controller;
+    this.sockets = [];
   }
 
   start() {
@@ -9,9 +10,13 @@ export class InGameServer {
       console.log("a user connected with id " + socket.id);
 
       socket.on("join", () => {
-        const player = this.controller.addPlayer(socket.id);
-        socket.emit("welcome", player);
-        socket.broadcast.emit("player-added", player);
+        try {
+          const player = this.controller.addPlayer(socket.id);
+          socket.emit("welcome", player);
+          socket.broadcast.emit("player-added", player);
+        } catch (error) {
+          console.log(error.message);
+        }
       });
 
       socket.on("init", (player) => {
@@ -65,6 +70,7 @@ export class InGameServer {
         console.log("a user disconnected with id " + socket.id);
         this.controller.removePlayer(socket.id);
         socket.broadcast.emit("player-disconnected", socket.id);
+        this.sockets = this.sockets.filter((e) => e != socket.id);
       });
     });
   }
